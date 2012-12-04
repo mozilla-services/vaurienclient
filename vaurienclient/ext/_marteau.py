@@ -31,8 +31,8 @@ class VaurienFixture(object):
 
     @classmethod
     def get_arguments(cls):
-        return (('host', str, 'http://localhost:80',
-                ('behavior', str, 'dummy')))
+        return (('host', str, 'http://localhost:80'),
+                ('behavior', str, 'dummy'))
 
     def setup(self):
         # first of all, make a call to the proxy to get its current state, in
