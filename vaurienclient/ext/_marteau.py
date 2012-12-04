@@ -11,7 +11,6 @@ class VaurienFixture(object):
     def __init__(self, behavior='dummy', hosts='http://localhost:80',
                  **kwargs):
         self._old_behavior = None
-        self.host = host
         self.behavior = behavior
         hosts = hosts.split(',')
         self._clients = [self._get_client(host) for host in hosts]
@@ -31,7 +30,7 @@ class VaurienFixture(object):
 
     @classmethod
     def get_arguments(cls):
-        return (('host', str, 'http://localhost:80',
+        return (('hosts', str, 'http://localhost:8000',
                  'host(s) separated by commas'),
                 ('behavior', str, 'dummy', 'behavior'))
 
@@ -40,13 +39,13 @@ class VaurienFixture(object):
         # order to replace everythin at the right position in the tearDown
         # method.
         for client in self._clients:
-            self._old_behavior = self._client.get_behavior()
-            self.set_behavior(self.behavior, **self._proxy_args)
+            self._old_behavior = client.get_behavior()
+            client.set_behavior(self.behavior, **self._proxy_args)
 
     def tear_down(self):
         """Restore back the previous behavior on the proxy"""
         for client in self._clients:
-            self._client.set_behavior(self._old_behavior)
+            client.set_behavior(self._old_behavior)
 
 
 MarteauFixture.register(VaurienFixture)
