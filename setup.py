@@ -19,7 +19,7 @@ classifiers = ["Programming Language :: Python",
 
 
 setup(name='vaurienclient',
-      version='0.8',
+      version='0.9',
       packages=find_packages(),
       description=("Client for the TCP Chaos Proxy"),
       long_description=README,
