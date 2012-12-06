@@ -1,3 +1,4 @@
+import json
 from urlparse import urlparse
 
 from marteau.fixtures import MarteauFixture
@@ -9,12 +10,21 @@ class VaurienFixture(object):
        state at the end of the tests.
     """
     def __init__(self, behavior='dummy', hosts='http://localhost:80',
-                 **kwargs):
+                 behavior_options=None, **kwargs):
         self._old_behavior = None
         self.behavior = behavior
+        if behavior_options is None:
+            self.behavior_options = {}
+        else:
+            try:
+                self.behavior_options = json.loads(behavior_options)
+            except ValueError:
+                self.behavior_options = {}
+
         hosts = hosts.split(',')
         self._clients = [self._get_client(host) for host in hosts]
         self._proxy_args = kwargs
+        self._proxy_args.update(self.behavior_options)
 
     def _get_client(self, host):
         """Return a vaurien client, or raise a ValueError if "name"
@@ -32,7 +42,8 @@ class VaurienFixture(object):
     def get_arguments(cls):
         return (('hosts', str, 'http://localhost:8000',
                  'host(s) separated by commas'),
-                ('behavior', str, 'dummy', 'behavior'))
+                ('behavior', str, 'dummy', 'behavior'),
+                ('behavior_options', str, '', 'behavior options (json map)'))
 
     def setup(self):
         # first of all, make a call to the proxy to get its current state, in
