@@ -27,12 +27,12 @@ class Client(object):
     def get_behavior(self):
         res = requests.get(self.behavior_url)
         res.raise_for_status()
-        return res.json['behavior']
+        return res.json()['behavior']
 
     def list_behaviors(self):
         res = requests.get(self.list_behaviors_url)
         res.raise_for_status()
-        return res.json['behaviors']
+        return res.json()['behaviors']
 
     @contextmanager
     def with_behavior(self, behavior, **options):
