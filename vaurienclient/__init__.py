@@ -18,8 +18,8 @@ class Client(object):
         options['name'] = behavior
         res = requests.put(self.behavior_url, data=json.dumps(options))
         if res.status_code == 400:
-            errors = res.json.get('errors', [])
-            status = res.json.get('status', 'error')
+            errors = res.json().get('errors', [])
+            status = res.json().get('status', 'error')
             if status == 'error' and errors[0]['name'] == 'name':
                 raise ValueError(errors[0]['description'])
         res.raise_for_status()
