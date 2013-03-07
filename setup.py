@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 
-install_requires = ['requests']
+install_requires = ['requests >= 1.1']
 
 try:
     import argparse     # NOQA
@@ -19,7 +19,7 @@ classifiers = ["Programming Language :: Python",
 
 
 setup(name='vaurienclient',
-      version='1.0',
+      version='1.1',
       packages=find_packages(),
       description=("Client for the TCP Chaos Proxy"),
       long_description=README,
